@@ -7,6 +7,7 @@ import requests
 import pandas as pd
 from requests_toolbelt import MultipartEncoder
 import json
+import math
 
 
 
@@ -266,37 +267,74 @@ class BiTable:
         if response['msg'] != 'success':
             print(record_dict_list)
             print('新增记录失败！response:{}'.format(response))
+            return 0
         else:
-            print('新增记录成功！')
+            return len(record_dict_list)
+
+    # 将DataFrame,list分页
+    def split_df_list(self, data, limit=500): # -> list， [df1,df2...]
+        data_list = []
+        if len(data) <= limit:
+            return data
+        else:
+            page_num = math.ceil(len(data) / limit)
+            if str(type(data)) == '<class \'pandas.core.frame.DataFrame\'>':
+                for p_num in range(page_num):
+                    data_limit = data.iloc[p_num*limit:(p_num+1)*limit]
+                    data_list.append(data_limit)
+            elif str(type(data)) == '<class \'list\'>':
+                for p_num in range(page_num):
+                    data_limit = data[p_num*limit:(p_num+1)*limit]
+                    data_list.append(data_limit)
+            else:
+                print('未识别分页数据类型')
+
+        return data_list
+
 
     # 将DataFrame格式数据直接添加进多维表格
     def insert_records_from_df(self, table_id, df):
+        print('累计待插入行数：{}'.format(len(df)))
+        total = 0
         if df.empty == False:
-            record_dict_list = self.df_format(df)
-            self.insert_records(table_id, record_dict_list)
+            df_list = self.split_df_list(df, limit=500)
+            for df in df_list:
+                record_dict_list = self.df_format(df)
+                total += self.insert_records(table_id, record_dict_list)
+            print('成功插入行数:{}'.format(total))
         else:
             print('数据源为空！')
 
     # 删除多条记录（指定行记录id批量删除）
-    def delete_records(self, table_id, record_id_list): # <- list 例如：["recIcJBbvC", "recvmiCORa"]
+    def delete_records(self, table_id, record_list): # <- list 例如：["recIcJBbvC", "recvmiCORa"]
         url = 'https://open.feishu.cn/open-apis/bitable/v1/apps/'+self.app_token+'/tables/'+table_id+'/records/batch_delete'
-        params = json.dumps({
-            "records": record_id_list
-        })
-        response = requests.request("POST", url, headers=self.headers, data=params)
-        response = response.json()
-        if response['msg'] != 'success':
-            print('删除记录失败！response:{}'.format(response))
+
+        record_ids_list = self.split_df_list(record_list)
+        if record_ids_list:
+            for record_ids in record_ids_list:
+                params = json.dumps({
+                    "records": record_ids
+                })
+                response = requests.request("POST", url, headers=self.headers, data=params)
+                response = response.json()
+                if response['msg'] != 'success':
+                    print('删除记录失败！response:{}'.format(response))
+                    return False
+        else:
+            print('传入record_id为空！')
 
     # 清空整表记录（指定单个表id）
     def clean_records(self, table_id):
-        records_info = self.show_records(table_id)
-        if records_info.empty == False:
-            self.delete_records(table_id, records_info['record_id'].tolist())
+        records = self.show_records(table_id)
+        if records.empty == False:
+            self.delete_records(table_id, records['record_id'].tolist())
+            return True
         else:
-            pass
+            return False
+
 
     # 刷新整表记录（指定单个表id,待写入数据源格式->DataFrame）
     def refresh_records(self, table_id, df):
-        self.clean_records(table_id)
-        self.insert_records_from_df(table_id, df)
+        if self.clean_records(table_id):
+            print('table内记录已清空...')
+            self.insert_records_from_df(table_id, df)
