@@ -33,7 +33,7 @@ bot.send_img(image_key=img_key)
 
 """多维表格操作"""
 bitable = fs_api.BiTable(app_id=licence_app_id, app_secret=licence_app_secret, app_token='bascnWgJYXqhBSwgIRtcZxUlsve') # app_token 指多维表格的Id
-table_id = 'tbldiI1bXSFmncNK' # table_id 指多维表格下的数据表id
+table_id = 'tblAawLennTHnbzz' # table_id 指多维表格下的数据表id
 
 # 假设已在飞书多维表格建表，表字段同如下DataFrame
 df = pd.DataFrame({'城市等级': ['一线', '二线', '三线', '四线', '五线'],
@@ -43,16 +43,12 @@ df = pd.DataFrame({'城市等级': ['一线', '二线', '三线', '四线', '五
                        '活动D': [300, 900, 1900, 2800, 3300],
                        '活动E': [130, 790, 1800, 3000, 4200]})
 
-records = bitable.show_records(table_id=table_id) # 获取指定table_id的数据
+# 获取指定table_id的数据
+records = bitable.show_records(table_id=table_id)
 
-bitable.refresh_records(table_id=table_id, df=df) # 将指定table_id的数据清空并将DataFrame数据批量插入
+# 将指定table_id的数据清空并将DataFrame数据批量插入
+bitable.refresh_records(table_id=table_id, df=df)
 
-bitable.insert_records_from_df(table_id=table_id, df=df) # 在指定table_id末尾插入DataFrame
-
-
-
-
-
-
-
+# 在指定table_id末尾插入DataFrame
+bitable.insert_records_from_df(table_id=table_id, df=df)
 

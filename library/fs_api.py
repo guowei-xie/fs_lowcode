@@ -208,26 +208,31 @@ class BiTable:
         else:
             print('列出数据表失败! response:{}'.format(response))
 
-    # 列出表内记录及record_id
+    #列出数据表记录
     def show_records(self, table_id): # -> df
-        url = 'https://open.feishu.cn/open-apis/bitable/v1/apps/'+self.app_token+'/tables/'+table_id+'/records'
-        response = requests.get(url=url, headers=self.headers)
-        response = response.json()
-
-        if response['msg'] == 'success':
-            items = response['data']['items']
-            records_info = []
-            if items: #表记录非空时
-                for item in items:
-                    record_info = item['fields']
-                    record_info['record_id'] = item['record_id']
-                    records_info.append(record_info)
-                return pd.DataFrame(records_info)
+        df_list = []
+        page_token = ''
+        has_more = True
+        while has_more:
+            url = 'https://open.feishu.cn/open-apis/bitable/v1/apps/' + self.app_token + '/tables/' + table_id + '/records/?page_token=' + page_token + '&page_size=500'
+            response = requests.get(url=url, headers=self.headers)
+            response = response.json()
+            if response['msg'] == 'success':
+                items = response['data']['items']
+                records_info = []
+                if items: #表记录非空时
+                    for item in items:
+                        record_info = item['fields']
+                        record_info['record_id'] = item['record_id']
+                        records_info.append(record_info)
+                    df_list.append(pd.DataFrame(records_info))
+                    has_more = response['data']['has_more']
+                    page_token = response['data']['page_token']
+                else:
+                    print('目标数据表空！')
             else:
-                print('目标表记录为空！')
-                return pd.DataFrame(records_info)
-        else:
-            print('列出表内记录失败！ response:{}'.format(response))
+                print('失败！ response:{}'.format(response))
+        return pd.concat(df_list)
 
     # 添加数据记录（单条，末尾添加）
     def insert_record(self, table_id, record_dict): # <- dict，例如：{'字段1': '测试', '字段2': 123, '字段3': 35, '字段4': '100%'}
@@ -261,13 +266,14 @@ class BiTable:
         if response['msg'] != 'success':
             print(record_dict_list)
             print('新增记录失败！response:{}'.format(response))
+        else:
+            print('新增记录成功！')
 
     # 将DataFrame格式数据直接添加进多维表格
     def insert_records_from_df(self, table_id, df):
         if df.empty == False:
             record_dict_list = self.df_format(df)
             self.insert_records(table_id, record_dict_list)
-            print('数据批量导入成功！')
         else:
             print('数据源为空！')
 
