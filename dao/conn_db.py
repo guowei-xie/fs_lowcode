@@ -1,8 +1,4 @@
-#import yaml
 from config.configration import *
-#from pyhive import hive
-#import pymysql
-
 
 def conn_db(sql, key='hive'):
     conf = my_conf
@@ -21,7 +17,7 @@ def conn_db(sql, key='hive'):
             auth='LDAP'
         )
 
-    if 'mysql' in key:
+    if key == 'mysql':
         import pymysql
         database = conf.get(key, 'database')
         conn = pymysql.connect(

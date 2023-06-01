@@ -10,7 +10,6 @@ import json
 import math
 
 
-
 class FeishuBot:
     """自定义机器人"""
     def __init__(self, webhook_url: str, secret: str) -> None:

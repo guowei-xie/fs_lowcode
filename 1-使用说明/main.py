@@ -32,7 +32,10 @@ bot.send_img(image_key=img_key)
 
 
 """多维表格操作"""
-bitable = fs_api.BiTable(app_id=licence_app_id, app_secret=licence_app_secret, app_token='bascnWgJYXqhBSwgIRtcZxUlsve') # app_token 指多维表格的Id
+bitable = fs_api.BiTable(app_id=licence_app_id,
+                         app_secret=licence_app_secret,
+                         app_token='bascnWgJYXqhBSwgIRtcZxUlsve') # app_token 指多维表格的Id
+
 table_id = 'tblAawLennTHnbzz' # table_id 指多维表格下的数据表id
 
 # 假设已在飞书多维表格建表，表字段同如下DataFrame
