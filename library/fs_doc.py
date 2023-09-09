@@ -8,8 +8,8 @@ from requests_toolbelt import MultipartEncoder
 class Doc:
     """云文档自动化demo"""
     def __init__(self, document_id):
-        conf_path = os.getenv('myconf')
-        conf = yaml.full_load(open(conf_path + '/fs_conf.yml', encoding='utf-8').read())
+        conf_path = os.getenv('fs_conf')
+        conf = yaml.full_load(open(conf_path, encoding='utf-8').read())
         current_time = datetime.datetime.now()
 
         """初始化生成应用凭证"""
