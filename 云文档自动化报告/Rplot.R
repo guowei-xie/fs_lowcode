@@ -109,45 +109,45 @@ plot3 <-
 
 ggsave("img/plot3.jpeg", plot = plot3)
 
-
-### CHART.4-生存曲线：通过入口月份观察近期退费率趋势
-library(survival)
-library(survminer)
-dat <- read_csv("data/refund.csv") %>%
-  filter(pay_date >= "2022-06-01" & pay_date <= "2022-12-31")
-
-facet_fit <-
-  survfit(Surv(surv_days, is_refund) ~ pay_month + parent_operation_type_name,data = dat)
-
-
-ggsurv <-
-  ggsurvplot(
-
-    facet_fit,
-    data = dat,
-    linetype = "solid",
-    conf.int = FALSE,
-    xlab = "Days",
-    ylab = "Surv.Prob",
-    ylim = c(0.85, 1),
-    pval = TRUE,
-    #palette = "Greens",
-    direction = 1,
-    ggtheme = theme(text = element_text(family = 'Kai'),
-                    plot.title = element_text(size = 12,
-                                              face = "blod",
-                                              family = 'Kai'))
-  )
-
-plot4 <-
-  ggsurv$plot +
-  scale_color_grey()+
-  #scale_color_hue(h = c(120, 240))+
-  geom_hline(yintercept = 0.9,
-             lty = 4,
-             col = "salmon")+
-  facet_wrap(~ parent_operation_type_name, ncol = 2)+
-  theme(legend.position = "none")
-
-ggsave("img/plot4.jpeg", plot = plot4)
+#
+# ### CHART.4-生存曲线：通过入口月份观察近期退费率趋势
+# library(survival)
+# library(survminer)
+# dat <- read_csv("data/refund.csv") %>%
+#   filter(pay_date >= "2022-06-01" & pay_date <= "2022-12-31")
+#
+# facet_fit <-
+#   survfit(Surv(surv_days, is_refund) ~ pay_month + parent_operation_type_name,data = dat)
+#
+#
+# ggsurv <-
+#   ggsurvplot(
+#
+#     facet_fit,
+#     data = dat,
+#     linetype = "solid",
+#     conf.int = FALSE,
+#     xlab = "Days",
+#     ylab = "Surv.Prob",
+#     ylim = c(0.85, 1),
+#     pval = TRUE,
+#     #palette = "Greens",
+#     direction = 1,
+#     ggtheme = theme(text = element_text(family = 'Kai'),
+#                     plot.title = element_text(size = 12,
+#                                               face = "blod",
+#                                               family = 'Kai'))
+#   )
+#
+# plot4 <-
+#   ggsurv$plot +
+#   scale_color_grey()+
+#   #scale_color_hue(h = c(120, 240))+
+#   geom_hline(yintercept = 0.9,
+#              lty = 4,
+#              col = "salmon")+
+#   facet_wrap(~ parent_operation_type_name, ncol = 2)+
+#   theme(legend.position = "none")
+#
+# ggsave("img/plot4.jpeg", plot = plot4)
 
