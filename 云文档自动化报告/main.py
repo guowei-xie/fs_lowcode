@@ -26,6 +26,7 @@ doc.text_add(content="（这里演示了样式文本块的使用）")
 ## 推送并重置容器
 doc.text_commit()
 
+
 doc.h1(content="2.可视化")
 doc.h2(content="2.1方差图")
 doc.text(content="使用方差图来展示不同学期下每个老师的续报率分布。（这里演示了单张图片的自动化上传）")

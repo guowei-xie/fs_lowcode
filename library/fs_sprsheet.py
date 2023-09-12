@@ -10,8 +10,8 @@ import datetime
 class SpreadSheet:
     """飞书电子表格操作"""
     def __init__(self, spreadsheetToken):
-        conf_path = os.getenv('myconf')
-        conf = yaml.full_load(open(conf_path + '/fs_conf.yml', encoding='utf-8').read())
+        conf_path = os.getenv('fs_conf')
+        conf = yaml.full_load(open(conf_path, encoding='utf-8').read())
         current_time = datetime.datetime.now()
         """初始化生成应用凭证"""
         self.app_id = conf['feishu_app']['app_id']
