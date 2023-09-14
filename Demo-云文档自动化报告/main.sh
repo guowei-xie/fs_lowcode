@@ -1,3 +1,3 @@
 #! /bin/sh
-export library='/Users/xgw/workspace/Python/lowcode_demo/library/'
+export library='/home/guowei/fs_lowcode/library'
 python main.py
