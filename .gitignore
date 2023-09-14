@@ -1,0 +1,6 @@
+**/data/
+library/my_conf.yml
+*test*
+**/__pycache__/
+*.idea
+.Rproj.user
