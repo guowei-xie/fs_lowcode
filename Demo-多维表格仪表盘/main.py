@@ -1,7 +1,11 @@
 ## Demo演示地址：https://wrpnn3mat2.feishu.cn/base/W5sbbe0h2a8YNts7e2echw8UnWg?table=tblBIToLPiVS2SpK&view=vewlAJ1iml
 
-from library.fs_bitable import *
-from library.helper import *
+import sys
+import os
+sys.path.append(os.getenv('library'))
+
+from fs_bitable import *
+from helper import *
 from datetime import datetime, timedelta
 import time
 
