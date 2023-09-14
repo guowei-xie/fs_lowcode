@@ -12,8 +12,8 @@ from datetime import datetime
 class MsgBot:
     def __init__(self, webhook_url, secret):
         """应用凭证"""
-        conf_path = os.getenv('myconf')
-        conf = yaml.full_load(open(conf_path + '/fs_conf.yml', encoding='utf-8').read())
+        conf_path = os.getenv('library')
+        conf = yaml.full_load(open(conf_path + 'my_conf.yml', encoding='utf-8').read())
         self.app_id = conf['feishu_app']['app_id']
         self.app_secret = conf['feishu_app']['app_secret']
         url = 'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal'

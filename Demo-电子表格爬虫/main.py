@@ -1,6 +1,9 @@
 # demo演示地址：https://wrpnn3mat2.feishu.cn/sheets/T4FnsQJlXhDwXLtpxQ3cJaMgnRb?sheet=3bf7d9
+import sys
+import os
+sys.path.append(os.getenv('library'))
 
-from library.fs_sprsheet import *
+from fs_sprsheet import *
 
 app = SpreadSheet(spreadsheetToken="T4FnsQJlXhDwXLtpxQ3cJaMgnRb")
 
