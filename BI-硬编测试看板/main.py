@@ -50,3 +50,5 @@ if __name__ == '__main__':
     # ## raw-过程数据-登录设备
     app.refresh(table_id="tblTUzMYkAYAUw6B", df=funnel_term_os(dat))
 
+
+
