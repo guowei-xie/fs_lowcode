@@ -23,8 +23,6 @@ if __name__ == '__main__':
     # 预处理：成本均摊
     dat = dat_pre(cost_input, raw_hard)
 
-
-
     # # 飞书表格视图
     # ## raw-招生数据-汇总
     app.refresh(table_id="tblrXuYeGNffX1HP", df=enroll_total(dat))
@@ -49,6 +47,3 @@ if __name__ == '__main__':
 
     # ## raw-过程数据-登录设备
     app.refresh(table_id="tblTUzMYkAYAUw6B", df=funnel_term_os(dat))
-
-
-
