@@ -15,6 +15,6 @@ app.write_range(sheet_id="3bf7d9", range="G2:J12", ls=dat[:5])
 
 # 伪清空range,实现原理是向整个range写入空值（之所这么干，是因为官方没有提供清空单元格的接口...）
 app.clean_range(sheet_id="3bf7d9", range="G2:I15")
-
+#
 # 清空range后再写入，实际上是clean_range和write_range的连续调用
 app.cover_range(sheet_id="3bf7d9", range="G2:J12", ls=dat)

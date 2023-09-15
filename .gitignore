@@ -1,4 +1,5 @@
 **/data/
+**/temp/
 library/my_conf.yml
 *test*
 **/__pycache__/
