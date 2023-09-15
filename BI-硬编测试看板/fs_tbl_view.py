@@ -60,11 +60,12 @@ def enroll_term(dat):
     # 按学期分组
     for term, group_data in dat.groupby('term_name_type'):
         total_enrollment = group_data['user_id'].nunique()
-        l1cac = round(group_data['cac'].dropna().mean(), 2)
+
         enrollment_with_cost = group_data.loc[group_data['cac'].notna(), 'user_id'].nunique()
+        l1cac = round(group_data['cac'].dropna().mean(), 2) if enrollment_with_cost > 0 else 0
         enrollment_without_cost = total_enrollment - enrollment_with_cost
         # 已结束续报的累计招生总量和续报数
-        #renewal_data = group_data[group_data['is_renewal_end'] == 1]
+        # renewal_data = group_data[group_data['is_renewal_end'] == 1]
         renewal_data = group_data
         total_renewal_count = renewal_data['is_renewal'].sum()
         total_renewal_enrollment = renewal_data['user_id'].nunique()
@@ -240,7 +241,7 @@ def funnel_term_age(dat):
     """raw-过程数据-年龄"""
     result_df = pd.DataFrame()
 
-    for (term, child_age), group_data in dat.groupby(['term_name_type', 'child_age']):
+    for (term, age), group_data in dat.groupby(['term_name_type', 'child_age']):
         enrollment_count = group_data['user_id'].nunique()
         login_rate = group_data['is_login'].sum() / enrollment_count
         add_wx_rate = group_data['is_add_wx'].sum() / enrollment_count
@@ -254,7 +255,7 @@ def funnel_term_age(dat):
 
         temp_df = pd.DataFrame({
             '学期': [term],
-            '学生年龄': [child_age],
+            '学生年龄': [age],
             '招生量': [enrollment_count],
             '登录率': [login_rate],
             '加微率': [add_wx_rate],
