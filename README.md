@@ -8,16 +8,16 @@ feishu_app:
 
 # hive数仓配置
 hive:
-  host: 10.100.7.251
-  port: 10000
+  host: 
+  port: 
   username: 
   password: 
 
 # mysql_superset数据库配置
 mysql_superset:
-  host: rm-2ze48vdh0x9w6ykh7.mysql.rds.aliyuncs.com
-  port: 3306
-  database: strategy_superset
+  host: 
+  port: 
+  database: s
   username: 
   password: 
 ```
