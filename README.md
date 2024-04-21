@@ -5,21 +5,6 @@ library/`my_conf.yml`
 feishu_app:
   app_id: 
   app_secret:
-
-# hive数仓配置
-hive:
-  host: 
-  port: 
-  username: 
-  password: 
-
-# mysql_superset数据库配置
-mysql_superset:
-  host: 
-  port: 
-  database: s
-  username: 
-  password: 
 ```
 
 ## 环境变量
